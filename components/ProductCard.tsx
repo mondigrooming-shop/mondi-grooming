@@ -13,6 +13,9 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
     <Link href={`/produit/${product.handle}`} className="group block focus:outline-none">
       <article className="overflow-hidden rounded-xl border border-border/60 bg-card transition-all duration-500 hover:-translate-y-1.5 hover:bronze-glow hover:border-primary/30">
         <div className="relative overflow-hidden">
+          <div className="absolute left-3 top-3 z-10 rounded-full bg-primary/90 px-3 py-1 text-[10px] font-medium text-primary-foreground">
+            Précommande
+          </div>
           {image ? (
             <img
               src={image}
