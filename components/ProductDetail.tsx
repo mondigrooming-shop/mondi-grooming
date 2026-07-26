@@ -20,7 +20,7 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
   ].filter(Boolean);
 
   const handleAdd = async () => {
-    if (!selectedVariant?.availableForSale) return;
+    if (!selectedVariant) return;
     await addItem(selectedVariant.id, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -66,6 +66,13 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
 
         {/* Info */}
         <div className="space-y-6">
+          {/* Pre-order banner */}
+          <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
+            <p className="text-sm font-medium text-primary">
+              ⏳ Précommande — Expédition sous 2 à 3 semaines
+            </p>
+          </div>
+
           <div>
             <p className="eyebrow mb-2">{product.productType || product.vendor}</p>
             <h1 className="font-serif text-3xl sm:text-4xl">{product.title}</h1>
@@ -107,15 +114,11 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
                   <button
                     key={variant.id}
                     onClick={() => setSelectedVariant(variant)}
-                    disabled={!variant.availableForSale}
                     className={`rounded-lg border px-4 py-2 text-sm transition-all ${
                       selectedVariant?.id === variant.id
                         ? "border-primary bg-primary/10 text-primary"
-                        : variant.availableForSale
-                        ? "border-border/60 text-foreground hover:border-primary/30"
-                        : "border-border/40 text-muted-foreground/50 line-through cursor-not-allowed"
-                    }`}
-                  >
+                        : "border-border/60 text-foreground hover:border-primary/30"
+                    }`}>
                     {variant.title}
                   </button>
                 ))}
@@ -148,32 +151,35 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
           {/* Add to cart */}
           <button
             onClick={handleAdd}
-            disabled={!selectedVariant?.availableForSale || isLoading}
+            disabled={isLoading}
             className="btn-premium flex w-full items-center justify-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-medium text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {added ? (
               <>
                 <Check size={18} />
-                Ajouté au panier
+                Précommande ajoutée
               </>
             ) : isLoading ? (
               <span className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-            ) : !selectedVariant?.availableForSale ? (
-              "Épuisé"
             ) : (
               <>
                 <ShoppingBag size={18} />
-                Ajouter au panier
+                Précommander
               </>
             )}
           </button>
+
+          {/* Shipping info */}
+          <p className="text-xs text-muted-foreground">
+            Produit fabriqué sur commande par notre partenaire canadien. Délai d'expédition : 2 à 3 semaines. Paiement sécurisé à la commande.
+          </p>
 
           {/* Trust badges */}
           <div className="grid grid-cols-2 gap-3 pt-4">
             {[
               "Ingrédients d'origine naturelle",
               "Cruelty-free & vegan",
-              "Fait à Montréal, Québec",
+              "Fabriqué au Canada",
               "Livraison offerte dès 75 $",
             ].map((badge) => (
               <div key={badge} className="flex items-center gap-2 text-xs text-muted-foreground">
