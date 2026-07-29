@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { StarRating } from "./StarRating";
 import { formatPrice, type ShopifyProduct } from "@/lib/shopify";
 
 export function ProductCard({ product }: { product: ShopifyProduct }) {
@@ -30,11 +29,10 @@ export function ProductCard({ product }: { product: ShopifyProduct }) {
           )}
         </div>
         <div className="space-y-2 p-4 sm:p-5">
-          <p className="eyebrow text-[10px]">{product.productType || product.vendor}</p>
-          <h3 className="font-serif text-lg leading-snug text-foreground line-clamp-1">{product.title}</h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+          <h3 className="font-serif text-base leading-snug text-foreground line-clamp-2">{product.title}</h3>
+          <p className="text-xs text-muted-foreground line-clamp-2">{product.description}</p>
           <div className="flex items-center justify-between pt-2">
-            <StarRating rating={5} size={12} />
+            <span className="text-[10px] font-medium uppercase tracking-wider text-primary">Précommande</span>
             <span className="font-sans text-base font-medium text-foreground">{formatPrice(minPrice, currency)}</span>
           </div>
         </div>
