@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShoppingBag, Check, Minus, Plus } from "lucide-react";
+import { ShoppingBag, Check, Minus, Plus, Clock, Package, Shield, Truck } from "lucide-react";
 import { useCart } from "@/components/CartProvider";
 import { formatPrice, type ShopifyProduct, type ShopifyVariant } from "@/lib/shopify";
 
@@ -67,23 +67,16 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
         {/* Info */}
         <div className="space-y-6">
           {/* Pre-order banner */}
-          <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
+          <div className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3">
+            <Clock size={16} className="text-primary shrink-0" />
             <p className="text-sm font-medium text-primary">
-              ⏳ Précommande — Expédition sous 2 à 3 semaines
+              Précommande — Expédition sous 2 à 3 semaines
             </p>
           </div>
 
           <div>
-            <p className="eyebrow mb-2">{product.productType || product.vendor}</p>
             <h1 className="font-serif text-3xl sm:text-4xl">{product.title}</h1>
-            <div className="mt-3 flex items-center gap-3">
-              <div className="flex items-center gap-1">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <span key={i} className={i < 5 ? "text-primary" : "text-muted-foreground/30"}>★</span>
-                ))}
-              </div>
-              <span className="text-xs text-muted-foreground">5.0 · Avis vérifiés</span>
-            </div>
+            <p className="mt-2 text-sm text-muted-foreground">{product.vendor}</p>
           </div>
 
           {/* Price */}
@@ -170,9 +163,29 @@ export function ProductDetail({ product }: { product: ShopifyProduct }) {
           </button>
 
           {/* Shipping info */}
-          <p className="text-xs text-muted-foreground">
-            Produit fabriqué sur commande par notre partenaire canadien. Délai d'expédition : 2 à 3 semaines. Paiement sécurisé à la commande.
-          </p>
+          <div className="space-y-3 rounded-xl border border-border/60 bg-card/50 p-4">
+            <div className="flex items-start gap-3">
+              <Package size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-medium text-foreground">Fabrication sur commande</p>
+                <p className="text-xs text-muted-foreground">Chaque produit est fabriqué à la commande. Délai d'expédition : 2 à 3 semaines.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Shield size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-medium text-foreground">Paiement sécurisé</p>
+                <p className="text-xs text-muted-foreground">Paiement chiffré via Shopify. Annulation possible avant expédition.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Truck size={16} className="text-primary shrink-0 mt-0.5" />
+              <div>
+                <p className="text-xs font-medium text-foreground">Livraison au Canada</p>
+                <p className="text-xs text-muted-foreground">Livraison standard 3-5 jours · Gratuite dès 75 $ d'achat.</p>
+              </div>
+            </div>
+          </div>
 
           {/* Trust badges */}
           <div className="grid grid-cols-2 gap-3 pt-4">
